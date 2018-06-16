@@ -1,0 +1,4 @@
+boto3
+petl
+psycopg2
+moto
