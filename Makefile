@@ -1,4 +1,6 @@
 init:
+	# create venv 
+	python3 -m venv ../etl_venv \
 	# do it in virtual environment mode
 	. venv/bin/activate; \
 	# install all necessary packages
