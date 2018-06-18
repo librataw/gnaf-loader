@@ -1,7 +1,7 @@
 init:
 	# create venv 
 	python3 -m venv ../etl_venv; \
-	# do it in virtual environment mode
+	# source venv
 	. ../etl_venv/bin/activate; \
 	# install all necessary packages
 	pip3 install -r requirements.txt; \
@@ -15,4 +15,9 @@ docs:
 	# create html documentation using sphinx
 	cd docs && make html; \
 
-.PHONY: init test docs
+install:
+	# source venv
+	. ../etl_venv/bin/activate; \
+	python3 setup.py clean install
+
+.PHONY: init test docs install
