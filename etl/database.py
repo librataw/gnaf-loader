@@ -3,7 +3,9 @@ import logging
 
 
 class Database(object):
-
+    """
+    Database related class
+    """
     def __init__(self, logger=None):
         """
         Database class constructor
@@ -11,7 +13,7 @@ class Database(object):
         self.logger = logger or logging.getLogger(__name__)
         self.connection = None
 
-    def get_connection(self, server_name, database_name, user_name, password):
+    def set_connection(self, server_name, database_name, user_name, password):
         """
         Get database connection
         """
