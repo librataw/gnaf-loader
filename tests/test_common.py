@@ -12,13 +12,15 @@ class TestFileName(unittest.TestCase):
     Testing FileName class
     """
 
+    def setUp(self):
+        self.filename = etl.common.FileName()
+
     def test_get_file_extension(self):
         """
         Test getting the file extension from file name
         e.g: thefile.txt should return txt
         """
-        filename = etl.common.FileName('thefile.txt')
-        result = filename.get_file_extension()
+        result = self.filename.get_file_extension('thefile.txt')
         self.assertEqual(result, 'txt')
 
     def test_remove_file_extension_in_file_name(self):
@@ -26,8 +28,7 @@ class TestFileName(unittest.TestCase):
         Test removing file extension in file name
         e.g: thefile_txt.txt will be thefile.txt
         """
-        filename = etl.common.FileName('thefile_txt.txt')
-        result = filename.remove_file_extension()
+        result = self.filename.remove_file_extension('thefile_txt.txt')
         self.assertEqual(result, 'thefile.txt')
 
     def test_get_file_name(self):
@@ -35,8 +36,7 @@ class TestFileName(unittest.TestCase):
         Test getting the file name from full file name
         e.g: thefile.txt should return thefile
         """
-        filename = etl.common.FileName('thefile.txt')
-        result = filename.get_file_name()
+        result = self.filename.get_file_name('thefile.txt')
         self.assertEqual(result, 'thefile')
 
     def test_remove_region_code_in_file_name(self):
@@ -44,8 +44,7 @@ class TestFileName(unittest.TestCase):
         Test removing region code from the beginning of file name
         e.g: NSW_thefile.txt should return thefile.txt
         """
-        filename = etl.common.FileName('NSW_thefile.txt')
-        result = filename.remove_region_code()
+        result = self.filename.remove_region_code('NSW_thefile.txt')
         self.assertEqual(result, 'thefile.txt')
 
     def test_remove_double_region_code_in_file_name(self):
@@ -53,8 +52,7 @@ class TestFileName(unittest.TestCase):
         Test removing double region code at the beginning of file name
         e.g: NSW_OT_thefile.txt should return OT_thefile.txt
         """
-        filename = etl.common.FileName('NSW_OT_thefile.txt')
-        result = filename.remove_region_code()
+        result = self.filename.remove_region_code('NSW_OT_thefile.txt')
         self.assertEqual(result, 'OT_thefile.txt')
 
     def test_remove_unknown_region_code_in_file_name(self):
@@ -62,8 +60,7 @@ class TestFileName(unittest.TestCase):
         Test removing unknown region code in file name
         e.g: unknownregion_thefile.txt should return as is
         """
-        filename = etl.common.FileName('unknownregion_thefile.txt')
-        result = filename.remove_region_code()
+        result = self.filename.remove_region_code('unknownregion_thefile.txt')
         self.assertEqual(result, 'unknownregion_thefile.txt')
 
     def test_trim_start(self):
@@ -71,8 +68,7 @@ class TestFileName(unittest.TestCase):
         Test remove any text from the beginning of the file name
         e.g: start_thefile.txt become thefile.txt
         """
-        filename = etl.common.FileName('start_thefile.txt')
-        result = filename.trim_start('start_')
+        result = self.filename.trim_start('start_thefile.txt','start_')
         self.assertEqual(result, 'thefile.txt')
 
     def test_trim_end(self):
@@ -80,8 +76,7 @@ class TestFileName(unittest.TestCase):
         Test remove any text from the end of file name
         e.g: thefile_end.txt become thefile.txt
         """
-        filename = etl.common.FileName('thefile_end.txt')
-        result = filename.trim_end('_end')
+        result = self.filename.trim_end('thefile_end.txt', '_end')
         self.assertEqual(result, 'thefile.txt')
 
 

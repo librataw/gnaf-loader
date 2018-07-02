@@ -35,43 +35,42 @@ class FileName(object):
     FileName class
     """
 
-    def __init__(self, file_name, logger=None):
+    def __init__(self, logger=None):
         """
         FileName class constructor
         """
-        self.file_name = file_name
         self.logger = logger or logging.getLogger(__name__)
 
-    def remove_file_extension(self):
+    def remove_file_extension(self, text):
         """
         Remove file extension from file name (e.g test_csv.csv become test.csv)
         """
         # get file type
-        file_extension = self.get_file_extension()
-        f_name = self.get_file_name()
-        result = self.file_name
+        file_extension = self.get_file_extension(text)
+        f_name = self.get_file_name(text)
+        result = text
         search_item = '_{0}'.format(file_extension)
         if f_name.endswith(search_item):
             # test_csv.csv will become test.csv
-            result = self.trim_end(search_item)
+            result = self.trim_end(text, search_item)
         return result
 
-    def get_file_extension(self):
+    def get_file_extension(self, text):
         """
         Get file extension from file name
         """
-        file_extension = os.path.splitext(self.file_name)[1]
+        file_extension = os.path.splitext(text)[1]
         if file_extension.startswith('.'):
             file_extension = file_extension[1:]
         return file_extension
 
-    def get_file_name(self):
+    def get_file_name(self, text):
         """
         Get file name without file extension
         """
-        return os.path.splitext(self.file_name)[0]
+        return os.path.splitext(text)[0]
 
-    def remove_region_code(self):
+    def remove_region_code(self, text):
         """
         Remove region code from file name (e.g nsw_test.csv become test.csv)
         """
@@ -81,35 +80,35 @@ class FileName(object):
         # add underscore after region code
         search_items = [region_code + '_' for region_code in region_codes]
         # get file type
-        result = self.file_name
+        result = text
 
         for search_item in (si for si in search_items if trimmed is False):
             # if the file name starts with any of the search item
             if result.startswith(search_item):
-                result = self.trim_start(search_item)
+                result = self.trim_start(text, search_item)
                 # stop checking once trimmed
                 trimmed = True
         return result
 
-    def trim_start(self, search_item):
+    def trim_start(self, text, search_item):
         """
         Remove search_item from beginning of file name (e.g authority_code_test.csv become test.csv)
         """
         # get file type
-        f_name = self.get_file_name()
-        result = self.file_name
+        f_name = self.get_file_name(text)
+        result = text
         if f_name.startswith(search_item):
             result = result[len(search_item):]
         return result
 
-    def trim_end(self, search_item):
+    def trim_end(self, text, search_item):
         """
         Remove search_item at the end of file name (e.g code_test.csv become test.csv)
         """
         # get file type
-        file_extension = self.get_file_extension()
-        f_name = self.get_file_name()
-        result = self.file_name
+        file_extension = self.get_file_extension(text)
+        f_name = self.get_file_name(text)
+        result = text
         if f_name.endswith(search_item):
             result = '{0}.{1}'.format(f_name.replace(search_item, ''), file_extension)
         return result

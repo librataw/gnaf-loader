@@ -79,34 +79,6 @@ class Queue(object):
         )
         return response
 
-'''
-    def queue_s3_bucket(self, bucket_name, key_name, queue_name):
-        """
-        Queue the item in S3 bucket to SQS
-        
-        Example : s3://bucket_name/key_name/items
-                  Each items will be send to SQS for further processing
-        
-        """
-        metadata = client.list_objects(Bucket=bucket_name, Prefix=key_name)['Contents']
-        for m_data in metadata:
-            # construct payload
-            # nsw_test_csv.csv goes to test table
-            key = os.path.basename(m_data['Key'])
-            destination_table = remove_file_type_from_file_name(key)
-            destination_table = remove_region_code(destination_table)
-            destination_table = remove_authority_code(destination_table)
-            destination_table = get_file_name(destination_table)
-            # specific queue to import file to database
-            if queue_name == 'import_file':
-                payload = generate_import_file_payload(bucket_name, m_data['Key'],
-                                                       destination_table)
-
-            # queue the payload
-            self.send_message(queue_name, payload)
-
-'''
-
 
 class CloudStorage(object):
     """
@@ -140,10 +112,10 @@ class CloudStorage(object):
         """
         Loop and upload files in a directory
         """
+        fn = common.FileName()
         for root, dirs, files in os.walk(directory_path):
             for local_file in files:
-                file_name = common.FileName(local_file)
-                if file_extension == file_name.get_file_extension() or file_extension == '*':
+                if file_extension == fn.get_file_extension(local_file) or file_extension == '*':
                     file_path = os.path.join(root, local_file)
                     file_name = os.path.basename(local_file)
                     # upload unzip files to s3
