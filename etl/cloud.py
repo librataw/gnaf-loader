@@ -129,7 +129,9 @@ class CloudStorage(object):
         integration = common.Integration()
 
         # unique uuid to be use as key
+        self.logger.info('Generate UUID...')
         unique_id = str(uuid.uuid4())
+        self.logger.info('UUID is %s' % unique_id)
 
         # local path to be use to unzip data
         directory_path = os.path.join(temp_directory, unique_id)
