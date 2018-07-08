@@ -32,3 +32,4 @@ class Database(object):
         cursor.copy_expert(sql, local_file)
         self.connection.commit()
         cursor.close()
+        local_file.close()
