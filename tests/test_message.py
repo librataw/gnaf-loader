@@ -57,7 +57,7 @@ class TestMessage(unittest.TestCase):
 
         # run the function
         distributor = etl.message.Distributor()
-        distributor.queue_items(bucket_name, key_name, queue_name)
+        distributor.queue_items(bucket_name, key_name, queue_name, 'import_file')
 
         # clean up
         shutil.rmtree(directory_path)

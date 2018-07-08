@@ -1,7 +1,6 @@
 import os
 import logging
 import glob
-import json
 import zipfile
 
 

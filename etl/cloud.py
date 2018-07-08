@@ -1,5 +1,3 @@
-#!/usr/bin/python3.6
-
 """
 Cloud utilities etl
 """

@@ -1,5 +1,3 @@
-#!/usr/bin/python3.6
-
 """
 Message utilities etl
 """
@@ -23,7 +21,7 @@ class Distributor(object):
         """
         self.logger = logger or logging.getLogger(__name__)
 
-    def queue_items(self, bucket_name, key_name, queue_name):
+    def queue_items(self, bucket_name, key_name, queue_name, action_type):
         """
         Queue items in S3 bucket to SQS.
         Not recursive. Will queue only the items directly in the bucket.
@@ -43,7 +41,7 @@ class Distributor(object):
             destination_table = file_name.get_file_name(destination_table)
 
             # specific queue to import file to database
-            if queue_name == 'import_file':
+            if action_type == 'import_file':
                 p = common.Payload()
                 payload = p.generate_import_file_in_s3_payload(bucket_name, m_data['Key'],
                                                        destination_table)
