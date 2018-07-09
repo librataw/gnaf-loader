@@ -169,6 +169,8 @@ class Distributor(object):
         payload = None
         
         metadata = client.list_objects(Bucket=bucket_name, Prefix=key_name)['Contents']
+        queue = Queue(queue_name)
+
         for m_data in metadata:
             # construct payload
             # nsw_test_csv.csv goes to test table
@@ -185,6 +187,6 @@ class Distributor(object):
                 payload = p.generate_import_file_in_s3_payload(bucket_name, m_data['Key'],
                                                                destination_table)
 
+            self.logger.info('Queuing %s to %s...' % (payload, queue_name))
             # queue the payload
-            queue = Queue(queue_name)
             queue.put_message(payload)

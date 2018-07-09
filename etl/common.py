@@ -23,7 +23,7 @@ class Payload(object):
         payload = '{'
         payload += '"bucket_name" : "' + bucket_name + '",'
         payload += '"key_name" : "' + key_name + '",'
-        payload += '"instruction" : "import_file ",'
+        payload += '"instruction" : "import_file",'
         payload += '"details" : {"destination_table" : "' + destination_table + '"}'
         payload += '}'
         return payload

@@ -88,7 +88,7 @@ class TestPayload(unittest.TestCase):
         """
         Test import file payload creation
         """
-        expected_result = '{"bucket_name" : "test_bucket","key_name" : "test_key","instruction" : "import_file ","details" : {"destination_table" : "test_table"}}'
+        expected_result = '{"bucket_name" : "test_bucket","key_name" : "test_key","instruction" : "import_file","details" : {"destination_table" : "test_table"}}'
         result = self.payload.generate_import_file_in_s3_payload('test_bucket', 'test_key', 'test_table')
         self.assertEqual(result, expected_result)
 
