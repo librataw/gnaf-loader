@@ -20,4 +20,7 @@ install:
 	. ../etl_venv/bin/activate; \
 	python3 setup.py clean install
 
-.PHONY: init test docs install
+erd:
+	java -jar bin/schemaSpy_5.0.0.jar -t pgsql -db places -host localhost -s public -u etl_user -p password -o erd -dp bin/postgresql-42.2.2.jar
+
+.PHONY: init test docs install erd
