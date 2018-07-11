@@ -1,0 +1,24 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - echo Updating apt cache...
+      - apt-get update
+      - echo Entered the install phase...
+      - apt-get install -y pylint
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Linting Python code...
+      - pylint --disable=C archive_data.py
+      - pylint --disable=C import_file.py
+      - pylint --disable=C queue_bucket.py
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - archive_data.py
+    - import_file.py
+    - queue_bucket.py

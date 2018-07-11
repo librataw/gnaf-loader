@@ -178,7 +178,9 @@ class Distributor(object):
             file_name = common.FileName()
             destination_table = file_name.remove_file_extension(key)
             destination_table = file_name.remove_region_code(destination_table)
-            destination_table = file_name.trim_start(destination_table, 'authority_code')
+            destination_table = file_name.trim_start(destination_table, 'authority_code_')
+            destination_table = file_name.trim_start(destination_table, 'Authority_Code_')
+            destination_table = file_name.trim_start(destination_table, 'AUTHORITY_CODE_')
             destination_table = file_name.get_file_name(destination_table)
 
             # specific queue to import file to database
