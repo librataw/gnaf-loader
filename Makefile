@@ -1,13 +1,13 @@
 init:
 	# create venv 
-	python3 -m venv ../venv; \
+	python3 -m venv ../etl_venv; \
 	# source venv
-	. ../venv/bin/activate; \
+	. ../etl_venv/bin/activate; \
 	# install all necessary packages
 	pip3 install -r requirements.txt; \
 
 test:
-	. ../venv/bin/activate; \
+	. ../etl_venv/bin/activate; \
 	# run unit test
 	python3 -m unittest discover tests; \
 
@@ -17,7 +17,7 @@ docs:
 
 install:
 	# source venv
-	. ../venv/bin/activate; \
+	. ../etl_venv/bin/activate; \
 	python3 setup.py clean install
 
 erd:
