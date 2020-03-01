@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="places" schema="public" type="PostgreSQL - 10.4 (Ubuntu 10.4-0ubuntu0.18.04)">
+   <tables>
+      <table name="address_alias" numRows="627108" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="address_alias_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="principal_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="address_detail_pid" foreignKey="address_alias_fk3" implied="false" onDeleteCascade="false" table="address_detail"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="alias_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="address_detail_pid" foreignKey="address_alias_fk1" implied="false" onDeleteCascade="false" table="address_detail"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="5" name="alias_type_code" nullable="false" remarks="" size="10" type="varchar">
+            <parent column="code" foreignKey="address_alias_fk2" implied="false" onDeleteCascade="false" table="address_alias_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="6" name="alias_comment" nullable="true" remarks="" size="200" type="varchar"/>
+         <primaryKey column="address_alias_pid" sequenceNumberInPK="1"/>
+         <index name="address_alias_pk" unique="true">
+            <column ascending="true" name="address_alias_pid"/>
+         </index>
+      </table>
+      <table name="address_alias_type_aut" numRows="8" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="10" type="varchar">
+            <child column="alias_type_code" foreignKey="address_alias_fk2" implied="false" onDeleteCascade="false" table="address_alias"/>
+            <parent column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="locality_alias_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="30" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="address_alias_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="address_default_geocode" numRows="14622037" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="address_default_geocode_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="address_detail_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="address_detail_pid" foreignKey="address_default_geocode_fk1" implied="false" onDeleteCascade="false" table="address_detail"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="geocode_type_code" nullable="false" remarks="" size="4" type="varchar">
+            <parent column="code" foreignKey="address_default_geocode_fk2" implied="false" onDeleteCascade="false" table="geocode_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="8" id="5" name="longitude" nullable="true" remarks="" size="11" type="numeric"/>
+         <column autoUpdated="false" digits="8" id="6" name="latitude" nullable="true" remarks="" size="10" type="numeric"/>
+         <primaryKey column="address_default_geocode_pid" sequenceNumberInPK="1"/>
+         <index name="address_default_geocode_pk" unique="true">
+            <column ascending="true" name="address_default_geocode_pid"/>
+         </index>
+      </table>
+      <table name="address_detail" numRows="14622037" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="address_detail_pid" nullable="false" remarks="" size="15" type="varchar">
+            <child column="alias_pid" foreignKey="address_alias_fk1" implied="false" onDeleteCascade="false" table="address_alias"/>
+            <child column="principal_pid" foreignKey="address_alias_fk3" implied="false" onDeleteCascade="false" table="address_alias"/>
+            <child column="address_detail_pid" foreignKey="address_default_geocode_fk1" implied="false" onDeleteCascade="false" table="address_default_geocode"/>
+            <child column="address_detail_pid" foreignKey="address_mesh_block_2011_fk1" implied="false" onDeleteCascade="false" table="address_mesh_block_2011"/>
+            <child column="address_detail_pid" foreignKey="address_mesh_block_2016_fk1" implied="false" onDeleteCascade="false" table="address_mesh_block_2016"/>
+            <child column="primary_pid" foreignKey="primary_secondary_fk1" implied="false" onDeleteCascade="false" table="primary_secondary"/>
+            <child column="secondary_pid" foreignKey="primary_secondary_fk3" implied="false" onDeleteCascade="false" table="primary_secondary"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_last_modified" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="4" name="building_name" nullable="true" remarks="" size="200" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="lot_number_prefix" nullable="true" remarks="" size="2" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="lot_number" nullable="true" remarks="" size="5" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="lot_number_suffix" nullable="true" remarks="" size="2" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="8" name="flat_type_code" nullable="true" remarks="" size="7" type="varchar">
+            <parent column="code" foreignKey="address_detail_fk2" implied="false" onDeleteCascade="false" table="flat_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="9" name="flat_number_prefix" nullable="true" remarks="" size="2" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="10" name="flat_number" nullable="true" remarks="" size="5" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="11" name="flat_number_suffix" nullable="true" remarks="" size="2" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="12" name="level_type_code" nullable="true" remarks="" size="4" type="varchar">
+            <parent column="code" foreignKey="address_detail_fk4" implied="false" onDeleteCascade="false" table="level_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="13" name="level_number_prefix" nullable="true" remarks="" size="2" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="14" name="level_number" nullable="true" remarks="" size="3" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="15" name="level_number_suffix" nullable="true" remarks="" size="2" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="16" name="number_first_prefix" nullable="true" remarks="" size="3" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="17" name="number_first" nullable="true" remarks="" size="6" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="18" name="number_first_suffix" nullable="true" remarks="" size="2" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="19" name="number_last_prefix" nullable="true" remarks="" size="3" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="20" name="number_last" nullable="true" remarks="" size="6" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="21" name="number_last_suffix" nullable="true" remarks="" size="2" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="22" name="street_locality_pid" nullable="true" remarks="" size="15" type="varchar">
+            <parent column="street_locality_pid" foreignKey="address_detail_fk6" implied="false" onDeleteCascade="false" table="street_locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="23" name="location_description" nullable="true" remarks="" size="45" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="24" name="locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="locality_pid" foreignKey="address_detail_fk5" implied="false" onDeleteCascade="false" table="locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="25" name="alias_principal" nullable="true" remarks="" size="1" type="bpchar"/>
+         <column autoUpdated="false" digits="0" id="26" name="postcode" nullable="true" remarks="" size="4" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="27" name="private_street" nullable="true" remarks="" size="75" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="28" name="legal_parcel_id" nullable="true" remarks="" size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="29" name="confidence" nullable="true" remarks="" size="1" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="30" name="address_site_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="address_site_pid" foreignKey="address_detail_fk1" implied="false" onDeleteCascade="false" table="address_site"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="31" name="level_geocoded_code" nullable="false" remarks="" size="2" type="numeric">
+            <parent column="code" foreignKey="address_detail_fk3" implied="false" onDeleteCascade="false" table="geocoded_level_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="32" name="property_pid" nullable="true" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="33" name="gnaf_property_pid" nullable="true" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="34" name="primary_secondary" nullable="true" remarks="" size="1" type="varchar"/>
+         <primaryKey column="address_detail_pid" sequenceNumberInPK="1"/>
+         <index name="address_detail_pk" unique="true">
+            <column ascending="true" name="address_detail_pid"/>
+         </index>
+      </table>
+      <table name="address_mesh_block_2011" numRows="14620566" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="address_mesh_block_2011_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="address_detail_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="address_detail_pid" foreignKey="address_mesh_block_2011_fk1" implied="false" onDeleteCascade="false" table="address_detail"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="mb_match_code" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="code" foreignKey="address_mesh_block_2011_fk3" implied="false" onDeleteCascade="false" table="mb_match_code_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="5" name="mb_2011_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="mb_2011_pid" foreignKey="address_mesh_block_2011_fk2" implied="false" onDeleteCascade="false" table="mb_2011"/>
+         </column>
+         <primaryKey column="address_mesh_block_2011_pid" sequenceNumberInPK="1"/>
+         <index name="address_mesh_block_2011_pk" unique="true">
+            <column ascending="true" name="address_mesh_block_2011_pid"/>
+         </index>
+      </table>
+      <table name="address_mesh_block_2016" numRows="14622037" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="address_mesh_block_2016_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="address_detail_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="address_detail_pid" foreignKey="address_mesh_block_2016_fk1" implied="false" onDeleteCascade="false" table="address_detail"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="mb_match_code" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="code" foreignKey="address_mesh_block_2016_fk3" implied="false" onDeleteCascade="false" table="mb_match_code_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="5" name="mb_2016_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="mb_2016_pid" foreignKey="address_mesh_block_2016_fk2" implied="false" onDeleteCascade="false" table="mb_2016"/>
+         </column>
+         <primaryKey column="address_mesh_block_2016_pid" sequenceNumberInPK="1"/>
+         <index name="address_mesh_block_2016_pk" unique="true">
+            <column ascending="true" name="address_mesh_block_2016_pid"/>
+         </index>
+      </table>
+      <table name="address_site" numRows="14622037" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="address_site_pid" nullable="false" remarks="" size="15" type="varchar">
+            <child column="address_site_pid" foreignKey="address_detail_fk1" implied="false" onDeleteCascade="false" table="address_detail"/>
+            <child column="address_site_pid" foreignKey="address_site_geocode_fk1" implied="false" onDeleteCascade="false" table="address_site_geocode"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="address_type" nullable="true" remarks="" size="8" type="varchar">
+            <parent column="code" foreignKey="address_site_fk1" implied="false" onDeleteCascade="false" table="address_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="address_site_name" nullable="true" remarks="" size="200" type="varchar"/>
+         <primaryKey column="address_site_pid" sequenceNumberInPK="1"/>
+         <index name="address_site_pk" unique="true">
+            <column ascending="true" name="address_site_pid"/>
+         </index>
+      </table>
+      <table name="address_site_geocode" numRows="17757714" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="address_site_geocode_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="address_site_pid" nullable="true" remarks="" size="15" type="varchar">
+            <parent column="address_site_pid" foreignKey="address_site_geocode_fk1" implied="false" onDeleteCascade="false" table="address_site"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="geocode_site_name" nullable="true" remarks="" size="200" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="geocode_site_description" nullable="true" remarks="" size="45" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="geocode_type_code" nullable="true" remarks="" size="4" type="varchar">
+            <parent column="code" foreignKey="address_site_geocode_fk2" implied="false" onDeleteCascade="false" table="geocode_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="7" name="reliability_code" nullable="false" remarks="" size="1" type="numeric">
+            <parent column="code" foreignKey="address_site_geocode_fk3" implied="false" onDeleteCascade="false" table="geocode_reliability_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="8" name="boundary_extent" nullable="true" remarks="" size="7" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="9" name="planimetric_accuracy" nullable="true" remarks="" size="12" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="10" name="elevation" nullable="true" remarks="" size="7" type="numeric"/>
+         <column autoUpdated="false" digits="8" id="11" name="longitude" nullable="true" remarks="" size="11" type="numeric"/>
+         <column autoUpdated="false" digits="8" id="12" name="latitude" nullable="true" remarks="" size="10" type="numeric"/>
+         <primaryKey column="address_site_geocode_pid" sequenceNumberInPK="1"/>
+         <index name="address_site_geocode_pk" unique="true">
+            <column ascending="true" name="address_site_geocode_pid"/>
+         </index>
+      </table>
+      <table name="address_type_aut" numRows="56" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="8" type="varchar">
+            <child column="address_type" foreignKey="address_site_fk1" implied="false" onDeleteCascade="false" table="address_site"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="30" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="address_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="flat_type_aut" numRows="53" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="7" type="varchar">
+            <child column="flat_type_code" foreignKey="address_detail_fk2" implied="false" onDeleteCascade="false" table="address_detail"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="30" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="flat_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="geocode_reliability_aut" numRows="6" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="1" type="numeric">
+            <child column="reliability_code" foreignKey="address_site_geocode_fk3" implied="false" onDeleteCascade="false" table="address_site_geocode"/>
+            <child column="gnaf_reliability_code" foreignKey="locality_fk1" implied="false" onDeleteCascade="false" table="locality"/>
+            <child column="gnaf_reliability_code" foreignKey="street_locality_fk1" implied="false" onDeleteCascade="false" table="street_locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="100" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="geocode_reliability_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="geocode_type_aut" numRows="29" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="4" type="varchar">
+            <child column="geocode_type_code" foreignKey="address_default_geocode_fk2" implied="false" onDeleteCascade="false" table="address_default_geocode"/>
+            <child column="geocode_type_code" foreignKey="address_site_geocode_fk2" implied="false" onDeleteCascade="false" table="address_site_geocode"/>
+            <child column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="level_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="250" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="geocode_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="geocoded_level_type_aut" numRows="8" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="2" type="numeric">
+            <child column="level_geocoded_code" foreignKey="address_detail_fk3" implied="false" onDeleteCascade="false" table="address_detail"/>
+            <child column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="ps_join_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="70" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="geocoded_level_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="level_type_aut" numRows="15" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="4" type="varchar">
+            <child column="level_type_code" foreignKey="address_detail_fk4" implied="false" onDeleteCascade="false" table="address_detail"/>
+            <parent column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="geocode_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="30" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="level_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="locality" numRows="16456" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <child column="locality_pid" foreignKey="address_detail_fk5" implied="false" onDeleteCascade="false" table="address_detail"/>
+            <child column="locality_pid" foreignKey="locality_alias_fk2" implied="false" onDeleteCascade="false" table="locality_alias"/>
+            <child column="locality_pid" foreignKey="locality_neighbour_fk1" implied="false" onDeleteCascade="false" table="locality_neighbour"/>
+            <child column="neighbour_locality_pid" foreignKey="locality_neighbour_fk2" implied="false" onDeleteCascade="false" table="locality_neighbour"/>
+            <child column="locality_pid" foreignKey="locality_point_fk1" implied="false" onDeleteCascade="false" table="locality_point"/>
+            <child column="locality_pid" foreignKey="street_locality_fk2" implied="false" onDeleteCascade="false" table="street_locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="locality_name" nullable="false" remarks="" size="100" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="4" name="primary_postcode" nullable="true" remarks="" size="4" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="locality_class_code" nullable="false" remarks="" size="1" type="bpchar">
+            <parent column="code" foreignKey="locality_fk2" implied="false" onDeleteCascade="false" table="locality_class_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="6" name="state_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="state_pid" foreignKey="locality_fk3" implied="false" onDeleteCascade="false" table="state"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="7" name="gnaf_locality_pid" nullable="true" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="8" name="gnaf_reliability_code" nullable="false" remarks="" size="1" type="numeric">
+            <parent column="code" foreignKey="locality_fk1" implied="false" onDeleteCascade="false" table="geocode_reliability_aut"/>
+         </column>
+         <primaryKey column="locality_pid" sequenceNumberInPK="1"/>
+         <index name="locality_pk" unique="true">
+            <column ascending="true" name="locality_pid"/>
+         </index>
+      </table>
+      <table name="locality_alias" numRows="25536" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="locality_alias_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="locality_pid" foreignKey="locality_alias_fk2" implied="false" onDeleteCascade="false" table="locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="name" nullable="false" remarks="" size="100" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="postcode" nullable="true" remarks="" size="4" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="alias_type_code" nullable="false" remarks="" size="10" type="varchar">
+            <parent column="code" foreignKey="locality_alias_fk1" implied="false" onDeleteCascade="false" table="locality_alias_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="7" name="state_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="state_pid" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="state"/>
+         </column>
+         <primaryKey column="locality_alias_pid" sequenceNumberInPK="1"/>
+         <index name="locality_alias_pk" unique="true">
+            <column ascending="true" name="locality_alias_pid"/>
+         </index>
+      </table>
+      <table name="locality_alias_type_aut" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="10" type="varchar">
+            <child column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="address_alias_type_aut"/>
+            <child column="alias_type_code" foreignKey="locality_alias_fk1" implied="false" onDeleteCascade="false" table="locality_alias"/>
+            <child column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="street_locality_alias_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="100" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="locality_alias_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="locality_class_aut" numRows="8" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="1" type="bpchar">
+            <child column="locality_class_code" foreignKey="locality_fk2" implied="false" onDeleteCascade="false" table="locality"/>
+            <child column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="street_class_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="200" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="locality_class_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="locality_neighbour" numRows="88403" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="locality_neighbour_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="locality_pid" foreignKey="locality_neighbour_fk1" implied="false" onDeleteCascade="false" table="locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="neighbour_locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="locality_pid" foreignKey="locality_neighbour_fk2" implied="false" onDeleteCascade="false" table="locality"/>
+         </column>
+         <primaryKey column="locality_neighbour_pid" sequenceNumberInPK="1"/>
+         <index name="locality_neighbour_pk" unique="true">
+            <column ascending="true" name="locality_neighbour_pid"/>
+         </index>
+      </table>
+      <table name="locality_point" numRows="15924" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="locality_point_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="locality_pid" foreignKey="locality_point_fk1" implied="false" onDeleteCascade="false" table="locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="planimetric_accuracy" nullable="true" remarks="" size="12" type="numeric"/>
+         <column autoUpdated="false" digits="8" id="5" name="longitude" nullable="true" remarks="" size="11" type="numeric"/>
+         <column autoUpdated="false" digits="8" id="6" name="latitude" nullable="true" remarks="" size="10" type="numeric"/>
+         <primaryKey column="locality_point_pid" sequenceNumberInPK="1"/>
+         <index name="locality_point_pk" unique="true">
+            <column ascending="true" name="locality_point_pid"/>
+         </index>
+      </table>
+      <table name="mb_2011" numRows="347627" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="mb_2011_pid" nullable="false" remarks="" size="15" type="varchar">
+            <child column="mb_2011_pid" foreignKey="address_mesh_block_2011_fk2" implied="false" onDeleteCascade="false" table="address_mesh_block_2011"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="mb_2011_code" nullable="false" remarks="" size="15" type="varchar"/>
+         <primaryKey column="mb_2011_pid" sequenceNumberInPK="1"/>
+         <index name="mb_2011_pk" unique="true">
+            <column ascending="true" name="mb_2011_pid"/>
+         </index>
+      </table>
+      <table name="mb_2016" numRows="358122" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="mb_2016_pid" nullable="false" remarks="" size="15" type="varchar">
+            <child column="mb_2016_pid" foreignKey="address_mesh_block_2016_fk2" implied="false" onDeleteCascade="false" table="address_mesh_block_2016"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="mb_2016_code" nullable="false" remarks="" size="15" type="varchar"/>
+         <primaryKey column="mb_2016_pid" sequenceNumberInPK="1"/>
+         <index name="mb_2016_pk" unique="true">
+            <column ascending="true" name="mb_2016_pid"/>
+         </index>
+      </table>
+      <table name="mb_match_code_aut" numRows="5" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="15" type="varchar">
+            <child column="mb_match_code" foreignKey="address_mesh_block_2011_fk3" implied="false" onDeleteCascade="false" table="address_mesh_block_2011"/>
+            <child column="mb_match_code" foreignKey="address_mesh_block_2016_fk3" implied="false" onDeleteCascade="false" table="address_mesh_block_2016"/>
+            <parent column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="street_suffix_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="100" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="250" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="mb_match_code_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="primary_secondary" numRows="4186012" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="primary_secondary_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="primary_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="address_detail_pid" foreignKey="primary_secondary_fk1" implied="false" onDeleteCascade="false" table="address_detail"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="secondary_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="address_detail_pid" foreignKey="primary_secondary_fk3" implied="false" onDeleteCascade="false" table="address_detail"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="3" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="4" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="5" name="ps_join_type_code" nullable="false" remarks="" size="2" type="numeric">
+            <parent column="code" foreignKey="primary_secondary_fk2" implied="false" onDeleteCascade="false" table="ps_join_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="6" name="ps_join_comment" nullable="true" remarks="" size="500" type="varchar"/>
+         <primaryKey column="primary_secondary_pid" sequenceNumberInPK="1"/>
+         <index name="primary_secondary_pk" unique="true">
+            <column ascending="true" name="primary_secondary_pid"/>
+         </index>
+      </table>
+      <table name="ps_join_type_aut" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="2" type="numeric">
+            <child column="ps_join_type_code" foreignKey="primary_secondary_fk2" implied="false" onDeleteCascade="false" table="primary_secondary"/>
+            <parent column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="geocoded_level_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="500" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="ps_join_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="state" numRows="9" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="state_pid" nullable="false" remarks="" size="15" type="varchar">
+            <child column="state_pid" foreignKey="locality_fk3" implied="false" onDeleteCascade="false" table="locality"/>
+            <child column="state_pid" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="locality_alias"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="state_name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="4" name="state_abbreviation" nullable="false" remarks="" size="3" type="varchar"/>
+         <primaryKey column="state_pid" sequenceNumberInPK="1"/>
+         <index name="state_pk" unique="true">
+            <column ascending="true" name="state_pid"/>
+         </index>
+      </table>
+      <table name="street_class_aut" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="1" type="bpchar">
+            <child column="street_class_code" foreignKey="street_locality_fk3" implied="false" onDeleteCascade="false" table="street_locality"/>
+            <parent column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="locality_class_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="200" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="street_class_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="street_locality" numRows="709376" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="street_locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <child column="street_locality_pid" foreignKey="address_detail_fk6" implied="false" onDeleteCascade="false" table="address_detail"/>
+            <child column="street_locality_pid" foreignKey="street_locality_alias_fk2" implied="false" onDeleteCascade="false" table="street_locality_alias"/>
+            <child column="street_locality_pid" foreignKey="street_locality_point_fk1" implied="false" onDeleteCascade="false" table="street_locality_point"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="street_class_code" nullable="false" remarks="" size="1" type="bpchar">
+            <parent column="code" foreignKey="street_locality_fk3" implied="false" onDeleteCascade="false" table="street_class_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="street_name" nullable="false" remarks="" size="100" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="street_type_code" nullable="true" remarks="" size="15" type="varchar">
+            <parent column="code" foreignKey="street_locality_fk5" implied="false" onDeleteCascade="false" table="street_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="6" name="street_suffix_code" nullable="true" remarks="" size="15" type="varchar">
+            <parent column="code" foreignKey="street_locality_fk4" implied="false" onDeleteCascade="false" table="street_suffix_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="7" name="locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="locality_pid" foreignKey="street_locality_fk2" implied="false" onDeleteCascade="false" table="locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="8" name="gnaf_street_pid" nullable="true" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="9" name="gnaf_street_confidence" nullable="true" remarks="" size="1" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="10" name="gnaf_reliability_code" nullable="false" remarks="" size="1" type="numeric">
+            <parent column="code" foreignKey="street_locality_fk1" implied="false" onDeleteCascade="false" table="geocode_reliability_aut"/>
+         </column>
+         <primaryKey column="street_locality_pid" sequenceNumberInPK="1"/>
+         <index name="street_locality_pk" unique="true">
+            <column ascending="true" name="street_locality_pid"/>
+         </index>
+      </table>
+      <table name="street_locality_alias" numRows="40396" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="street_locality_alias_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="street_locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="street_locality_pid" foreignKey="street_locality_alias_fk2" implied="false" onDeleteCascade="false" table="street_locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="street_name" nullable="false" remarks="" size="100" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="street_type_code" nullable="true" remarks="" size="15" type="varchar">
+            <parent column="code" foreignKey="street_locality_alias_fk4" implied="false" onDeleteCascade="false" table="street_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="6" name="street_suffix_code" nullable="true" remarks="" size="15" type="varchar">
+            <parent column="code" foreignKey="street_locality_alias_fk3" implied="false" onDeleteCascade="false" table="street_suffix_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="7" name="alias_type_code" nullable="false" remarks="" size="10" type="varchar">
+            <parent column="code" foreignKey="street_locality_alias_fk1" implied="false" onDeleteCascade="false" table="street_locality_alias_type_aut"/>
+         </column>
+         <primaryKey column="street_locality_alias_pid" sequenceNumberInPK="1"/>
+         <index name="street_locality_alias_pk" unique="true">
+            <column ascending="true" name="street_locality_alias_pid"/>
+         </index>
+      </table>
+      <table name="street_locality_alias_type_aut" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="10" type="varchar">
+            <child column="alias_type_code" foreignKey="street_locality_alias_fk1" implied="false" onDeleteCascade="false" table="street_locality_alias"/>
+            <parent column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="locality_alias_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="15" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="street_locality_alias_type__pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="street_locality_point" numRows="693742" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="street_locality_point_pid" nullable="false" remarks="" size="15" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="date_created" nullable="false" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="2" name="date_retired" nullable="true" remarks="" size="13" type="date"/>
+         <column autoUpdated="false" digits="0" id="3" name="street_locality_pid" nullable="false" remarks="" size="15" type="varchar">
+            <parent column="street_locality_pid" foreignKey="street_locality_point_fk1" implied="false" onDeleteCascade="false" table="street_locality"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="4" name="boundary_extent" nullable="true" remarks="" size="7" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="5" name="planimetric_accuracy" nullable="true" remarks="" size="12" type="numeric"/>
+         <column autoUpdated="false" digits="8" id="6" name="longitude" nullable="true" remarks="" size="11" type="numeric"/>
+         <column autoUpdated="false" digits="8" id="7" name="latitude" nullable="true" remarks="" size="10" type="numeric"/>
+         <primaryKey column="street_locality_point_pid" sequenceNumberInPK="1"/>
+         <index name="street_locality_point_pk" unique="true">
+            <column ascending="true" name="street_locality_point_pid"/>
+         </index>
+      </table>
+      <table name="street_suffix_aut" numRows="19" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="15" type="varchar">
+            <child column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="mb_match_code_aut"/>
+            <child column="street_suffix_code" foreignKey="street_locality_fk4" implied="false" onDeleteCascade="false" table="street_locality"/>
+            <child column="street_suffix_code" foreignKey="street_locality_alias_fk3" implied="false" onDeleteCascade="false" table="street_locality_alias"/>
+            <child column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="street_type_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="30" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="street_suffix_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+      <table name="street_type_aut" numRows="266" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="code" nullable="false" remarks="" size="15" type="varchar">
+            <child column="street_type_code" foreignKey="street_locality_fk5" implied="false" onDeleteCascade="false" table="street_locality"/>
+            <child column="street_type_code" foreignKey="street_locality_alias_fk4" implied="false" onDeleteCascade="false" table="street_locality_alias"/>
+            <parent column="code" foreignKey="Implied Constraint" implied="true" onDeleteCascade="false" table="street_suffix_aut"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="description" nullable="true" remarks="" size="15" type="varchar"/>
+         <primaryKey column="code" sequenceNumberInPK="1"/>
+         <index name="street_type_aut_pk" unique="true">
+            <column ascending="true" name="code"/>
+         </index>
+      </table>
+   </tables>
+</database>
