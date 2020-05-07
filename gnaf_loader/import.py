@@ -11,8 +11,8 @@ import os
 import json
 import logging
 
-from etl import cloud
-from etl import database
+from gnaf_loader import cloud
+from gnaf_loader import database
 
 
 def setup_logger():

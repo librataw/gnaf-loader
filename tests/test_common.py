@@ -4,7 +4,7 @@ import os
 import zipfile
 import shutil
 
-from context import etl
+from context import gnaf_loader
 
 
 class TestFileName(unittest.TestCase):
@@ -13,7 +13,7 @@ class TestFileName(unittest.TestCase):
     """
 
     def setUp(self):
-        self.filename = etl.common.FileName()
+        self.filename = gnaf_loader.common.FileName()
 
     def test_get_file_extension(self):
         """
@@ -82,7 +82,7 @@ class TestFileName(unittest.TestCase):
 
 class TestPayload(unittest.TestCase):
     def setUp(self):
-        self.payload = etl.common.Payload()
+        self.payload = gnaf_loader.common.Payload()
 
     def test_generate_import_file_in_s3_payload(self):
         """
@@ -95,7 +95,7 @@ class TestPayload(unittest.TestCase):
 
 class TestIntegration(unittest.TestCase):
     def setUp(self):
-        self.integration = etl.common.Integration()
+        self.integration = gnaf_loader.common.Integration()
 
     def test_make_directory(self):
         """

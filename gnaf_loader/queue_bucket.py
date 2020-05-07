@@ -6,7 +6,7 @@ This module is use to :
 import logging
 import os
 
-from etl import cloud
+from gnaf_loader import cloud
 
 
 def setup_logger():

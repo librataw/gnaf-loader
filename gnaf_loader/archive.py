@@ -10,7 +10,7 @@ import logging
 import os
 import uuid
 
-from etl import cloud
+from gnaf_loader import cloud
 
 
 def setup_logger():

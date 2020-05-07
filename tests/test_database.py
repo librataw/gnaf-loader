@@ -7,7 +7,7 @@ import testing.postgresql
 
 from sqlalchemy import create_engine
 
-from context import etl
+from context import gnaf_loader
 
 
 class TestDatabase(unittest.TestCase):
@@ -22,7 +22,7 @@ class TestDatabase(unittest.TestCase):
         with testing.postgresql.Postgresql() as postgresql:
             create_engine(postgresql.url())
             dsn = postgresql.dsn()
-            database = etl.database.Database()
+            database = gnaf_loader.database.Database()
             connection = database.set_connection(dsn['host'], dsn['port'], dsn['database'], dsn['user'], None)
             self.assertEqual(str(type(connection)), '<class \'psycopg2.extensions.connection\'>')
 
@@ -33,7 +33,7 @@ class TestDatabase(unittest.TestCase):
         with testing.postgresql.Postgresql() as postgresql:
             create_engine(postgresql.url())
             dsn = postgresql.dsn()
-            database = etl.database.Database()
+            database = gnaf_loader.database.Database()
             database.connection = psycopg2.connect(**dsn)
             cursor = database.connection.cursor()
             cursor.execute('create table test_table (col1 varchar(20), col2 varchar(20));')

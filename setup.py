@@ -2,10 +2,10 @@
 
 from distutils.core import setup
 setup(
-    name = 'etl',
-    packages = ['etl'],
+    name = 'gnaf_loader',
+    packages = ['gnaf_loader'],
     version = '0.1',
-    description = 'ETL libraries',
+    description = 'GNAF loader',
     author = 'William Librata',
     author_email = 'william.librata@gmail.com',
     url = 'https://test.test'

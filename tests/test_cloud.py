@@ -10,7 +10,7 @@ from moto import mock_sqs
 from moto import mock_s3
 from boto3.s3.transfer import S3Transfer
 
-from context import etl
+from context import gnaf_loader 
 
 
 class TestQueue(unittest.TestCase):
@@ -25,7 +25,7 @@ class TestQueue(unittest.TestCase):
         self.resource = boto3.resource('sqs')
         self.client = boto3.client('sqs')
         self.queue_name = 'test'
-        self.queue = etl.cloud.Queue(queue_name=self.queue_name)
+        self.queue = gnaf_loader.cloud.Queue(queue_name=self.queue_name)
 
     @mock_sqs
     def test_get_queue_url(self):
@@ -175,7 +175,7 @@ class TestCloudStorage(unittest.TestCase):
         root_path = '/tmp/'
         file_name = str(uuid.uuid4())
         file_path = os.path.join(root_path, file_name)
-        cloudstorage = etl.cloud.CloudStorage()
+        cloudstorage = gnaf_loader.cloud.CloudStorage()
 
         # create test file
         open(file_path, 'a').close()
@@ -201,7 +201,7 @@ class TestCloudStorage(unittest.TestCase):
         Test upload a file to s3
         """
 
-        cloudstorage = etl.cloud.CloudStorage()
+        cloudstorage = gnaf_loader.cloud.CloudStorage()
 
         key_name = 'test'
         root_name = str(uuid.uuid4())
@@ -248,7 +248,7 @@ class TestCloudStorage(unittest.TestCase):
         root_path = '/tmp/'
         file_name = str(uuid.uuid4())
         file_path = os.path.join(root_path, file_name)
-        cloudstorage = etl.cloud.CloudStorage()
+        cloudstorage = gnaf_loader.cloud.CloudStorage()
         transfer = S3Transfer(self.client)
 
         # create test file
@@ -318,7 +318,7 @@ class TestCloudStorage(unittest.TestCase):
         os.remove(zip_file_path)
 
         # test unzip file
-        cloudstorage = etl.cloud.CloudStorage()
+        cloudstorage = gnaf_loader.cloud.CloudStorage()
 
         cloudstorage.unzip_file(self.bucket_name, key_name,
                                 self.bucket_name, directory_name, file_extension='file')
@@ -374,7 +374,7 @@ class TestMessage(unittest.TestCase):
         q = self.sqs_resource.create_queue(QueueName=queue_name)
 
         # run the function
-        distributor = etl.cloud.Distributor()
+        distributor = gnaf_loader.cloud.Distributor()
         distributor.queue_items(bucket_name, key_name, queue_name, 'import_file')
 
         # clean up
