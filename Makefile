@@ -1,13 +1,13 @@
 init:
 	# create venv 
-	python3 -m venv ../gnaf_loader_venv; \
+	python3 -m venv env; \
 	# source venv
-	. ../gnaf_loader_venv/bin/activate; \
+	. env/bin/activate; \
 	# install all necessary packages
 	pip3 install -r requirements.txt; \
 
 test:
-	. ../gnaf_loader_venv/bin/activate; \
+	. env/bin/activate; \
 	# run unit test
 	python3 -m unittest discover tests; \
 
@@ -17,7 +17,7 @@ docs:
 
 install:
 	# source venv
-	. ../gnaf_loader_venv/bin/activate; \
+	. env/bin/activate; \
 	python3 setup.py clean install
 
 erd:
