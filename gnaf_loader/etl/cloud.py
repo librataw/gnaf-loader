@@ -10,7 +10,7 @@ import urllib.parse
 
 from boto3.s3.transfer import S3Transfer
 
-from gnaf_loader import common
+from etl import common
 
 
 class Queue(object):
