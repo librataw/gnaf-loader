@@ -30,26 +30,27 @@ def cli():
 
 
 @cli.command()
-@click.argument('staging_bucket')
-@click.argument('file_name')
-@click.argument('archive_bucket')
-def archive(staging_bucket, file_name, archive_bucket):
+@click.argument('source_bucket')
+@click.argument('source_file_name')
+@click.argument('destination_bucket')
+@click.argument('destination_folder')
+def decompress(source_bucket, source_file_path, destination_bucket, destination_folder):
     """
-    Archive file from S3 staging bucekt to S3 archive bucket
+    Decompress file from S3 staging bucekt to another S3 bucket
     """
     # setup logger
     logger = setup_logger()
     # the file extension of gnaf data
     file_extension = 'psv'
     # location in s3 bucket to put the unzipped gnaf files
-    archive_key = os.path.join('gnaf', str(uuid.uuid4()))
+    destination_key = os.path.join(destination_folder, str(uuid.uuid4()))
 
     cs = cloud.CloudStorage(logger)
 
     logger.info('Start unzipping file from cloud storage...')
-    cs.unzip_file(staging_bucket, file_name, archive_bucket, archive_key, file_extension)
+    cs.unzip_file(source_bucket, source_file_path, destination_bucket, destination_key, file_extension)
     logger.info('Finish archiving files...')
-    logger.info('Files are archived in S3 %s' % os.path.join(archive_bucket, archive_key))
+    logger.info('Files are archived in S3 %s' % os.path.join(destination_bucket, destination_key))
 
 
 @cli.command()
