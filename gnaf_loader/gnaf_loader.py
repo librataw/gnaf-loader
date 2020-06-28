@@ -36,10 +36,6 @@ def cli():
 def archive(staging_bucket, file_name, archive_bucket):
     """
     Archive file from S3 staging bucekt to S3 archive bucket
-    :param staging_bucket: S3 staging bucket
-    :param file_name: file name to be archived
-    :param archive_bucket: S3 archive bucket
-    :return:
     """
     # setup logger
     logger = setup_logger()
@@ -63,10 +59,6 @@ def archive(staging_bucket, file_name, archive_bucket):
 def queue(queue_name, bucket_name, key_name):
     """
     Queue items in s3 bucket to SQS
-    :param queue_name: SQS queue name
-    :param bucket_name: S3 bucket name
-    :param key_name: S3 bucket key name
-    :return:
     """
     logger = setup_logger()
 
@@ -91,14 +83,6 @@ def queue(queue_name, bucket_name, key_name):
 def import_data(queue_name, temp_dir, db_host, db_name, db_username, db_password, db_port):
     """
     Import file queued in SQS to PostgreSQL database
-    :param queue_name: SQS queue name
-    :param temp_dir: temp directory path to hold temporary files
-    :param db_host: database host name
-    :param db_name: database name
-    :param db_username: database user name
-    :param db_password: database password
-    :param db_port: database port number
-    :return:
     """
 
     logger = setup_logger()
@@ -108,13 +92,16 @@ def import_data(queue_name, temp_dir, db_host, db_name, db_username, db_password
     db = database.Database(logger)
 
     logger.info('Setting up database connection to %s...' % (db_host))
-    connection = db.set_connection(db_host, db_port, db_name, db_username, db_password)
+    db.set_connection(db_host, db_port, db_name, db_username, db_password)
+
+    logger.info('Disable foreign key constraints checks...')
+    db.disable_foreign_key_constraints()
 
     # get message
     logger.info('Getting message from queue %s...' % (queue_name))
     message = queue.get_message()
 
-    if message is not None:
+    while message is not None:
         logger.info('Message retrieved : %s' % (message))
 
         message_body = message['Body']
@@ -135,11 +122,18 @@ def import_data(queue_name, temp_dir, db_host, db_name, db_username, db_password
 
             # import file to database
             logger.info('Importing file %s to %s...' % (file_path, message_body_json['details']['destination_table']))
-            db.import_file(file_path, message_body_json['details']['destination_table'])
+            db.import_file(file_path, message_body_json['details']['destination_table'], truncate=True)
 
             # remove message from queue
             logger.info('Removing message %s...' %(message))
             queue.remove_message(message)
+
+        # get message
+        logger.info('Getting message from queue %s...' % (queue_name))
+        message = queue.get_message()
+
+    logger.info('Enable foreign key constraints checks...')
+    db.enable_foreign_key_constraints()
 
 
 if __name__ == '__main__':

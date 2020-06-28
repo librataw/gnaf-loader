@@ -21,15 +21,33 @@ class Database(object):
                                 user=user_name, password=password)
         return self.connection
 
-    def import_file(self, file_path, table_name, delimiter='|', header=True):
+    def disable_foreign_key_constraints(self):
+        with self.connection.cursor() as cursor:
+            cursor.execute('SET session_replication_role = \'replica\'')
+
+    def enable_foreign_key_constraints(self):
+        with self.connection.cursor() as cursor:
+            cursor.execute('SET session_replication_role = \'origin\'')
+
+    def import_file(self, file_path, table_name, delimiter='|', header=True, truncate=False):
         """
         Import text file to database
         """
-        sql = 'COPY {0} FROM STDIN WITH(FORMAT CSV, DELIMITER \'{1}\', \
-              HEADER {2})'.format(table_name, delimiter, header)
-        local_file = open(file_path)
-        cursor = self.connection.cursor()
-        cursor.copy_expert(sql, local_file)
-        self.connection.commit()
-        cursor.close()
-        local_file.close()
+        with self.connection.cursor() as cursor:
+
+            if truncate:
+                cursor.execute('TRUNCATE TABLE {0} CASCADE'.format(table_name))
+
+            if header:
+                with open(file_path, 'r') as f:
+                    column_names = f.readline()[:-1].replace(delimiter, ',')
+                sql = 'COPY {0} ({1}) FROM STDIN WITH(FORMAT CSV, DELIMITER \'{2}\', \
+                      HEADER {3})'.format(table_name, column_names, delimiter, header)
+
+            else:
+                sql = 'COPY {0} FROM STDIN WITH(FORMAT CSV, DELIMITER \'{1}\', \
+                      HEADER {2})'.format(table_name, delimiter, header)
+
+            with open(file_path, 'r') as local_file:
+                cursor.copy_expert(sql, local_file)
+                self.connection.commit()
