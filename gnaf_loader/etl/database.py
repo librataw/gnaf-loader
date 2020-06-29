@@ -51,3 +51,15 @@ class Database(object):
             with open(file_path, 'r') as local_file:
                 cursor.copy_expert(sql, local_file)
                 self.connection.commit()
+
+    def truncate_table(self, table_name):
+        """
+        Truncate table
+        """
+        with self.connection.cursor() as cursor:
+            cursor.execute('TRUNCATE TABLE {0} CASCADE'.format(table_name))
+        self.connection.commit()
+
+    def close_connection(self):
+        if self.connection:
+            self.connection.close()

@@ -14,7 +14,7 @@ def setup_logger():
     Setup LOGGER object to handle logging
     """
 
-    logger = logging.getLogger('archive')
+    logger = logging.getLogger()
     stream_handler = logging.StreamHandler()
     logger.setLevel(logging.INFO)
     formatter = logging.Formatter(
@@ -74,6 +74,66 @@ def queue(queue_name, bucket_name, key_name):
 
 
 @cli.command()
+@click.argument('db_host')
+@click.argument('db_name')
+@click.argument('db_username')
+@click.argument('db_password')
+@click.argument('db_port')
+def truncate_tables(db_host, db_name, db_username, db_password, db_port):
+    """
+    Truncate gnaf tables
+    """
+    tables = ['public.address',
+              'public.address_alias',
+              'public.address_alias_type_aut',
+              'public.address_default_geocode',
+              'public.address_detail',
+              'public.address_mesh_block_2011',
+              'public.address_mesh_block_2016',
+              'public.address_site',
+              'public.address_site_geocode',
+              'public.address_type_aut',
+              'public.flat_type_aut',
+              'public.geocode_reliability_aut',
+              'public.geocode_type_aut',
+              'public.geocoded_level_type_aut',
+              'public.level_type_aut',
+              'public.locality',
+              'public.locality_alias',
+              'public.locality_alias_type_aut',
+              'public.locality_class_aut',
+              'public.locality_neighbour',
+              'public.locality_point',
+              'public.mb_2011',
+              'public.mb_2016',
+              'public.mb_match_code_aut',
+              'public.primary_secondary',
+              'public.ps_join_type_aut',
+              'public.state',
+              'public.street_class_aut',
+              'public.street_locality',
+              'public.street_locality_alias',
+              'public.street_locality_alias_type_aut',
+              'public.street_locality_point',
+              'public.street_suffix_aut',
+              'public.street_type_aut',]
+
+    logger = setup_logger()
+
+    db = database.Database(logger)
+
+    logger.info('Setting up database connection to %s...' % (db_host))
+    db.set_connection(db_host, db_port, db_name, db_username, db_password)
+
+    for table in tables:
+        logger.info('Truncate table %s...' % (table))
+        db.truncate_table(table)
+
+    logger.info('Close database connection to %s...' % (db_host))
+    db.close_connection
+
+
+@cli.command()
 @click.argument('queue_name')
 @click.argument('temp_dir')
 @click.argument('db_host')
@@ -123,7 +183,7 @@ def import_data(queue_name, temp_dir, db_host, db_name, db_username, db_password
 
             # import file to database
             logger.info('Importing file %s to %s...' % (file_path, message_body_json['details']['destination_table']))
-            db.import_file(file_path, message_body_json['details']['destination_table'], truncate=True)
+            db.import_file(file_path, message_body_json['details']['destination_table'])
 
             # remove message from queue
             logger.info('Removing message %s...' %(message))
@@ -135,6 +195,9 @@ def import_data(queue_name, temp_dir, db_host, db_name, db_username, db_password
 
     logger.info('Enable foreign key constraints checks...')
     db.enable_foreign_key_constraints()
+
+    logger.info('Close database connection to %s...' % (db_host))
+    db.close_connection
 
 
 if __name__ == '__main__':
