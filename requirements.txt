@@ -1,0 +1,7 @@
+boto3
+petl
+psycopg2-binary
+moto
+testing.postgresql
+sqlalchemy
+click
