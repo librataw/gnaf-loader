@@ -6,7 +6,7 @@ import os
 import uuid
 import json
 
-from etl import cloud, database
+from gnaf_loader.etl import cloud, database
 
 
 def setup_logger():
@@ -200,5 +200,9 @@ def import_data(queue_name, temp_dir, db_host, db_name, db_username, db_password
     db.close_connection
 
 
-if __name__ == '__main__':
+def main():
     cli()
+
+
+if __name__ == '__main__':
+    main()

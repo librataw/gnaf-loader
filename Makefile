@@ -11,6 +11,6 @@ docs:
 	cd docs && make html; \
 
 install:
-	python3 setup.py clean install
+	python setup.py clean install; \
 
 .PHONY: init test docs install
